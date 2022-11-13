@@ -13,6 +13,7 @@
     @endif
     <form id="vendorFrom" action="{{ url('/vendor/register') }}" method="post">
         @csrf
+        <input type="hidden" name="status" value="1"/>
         <div>
             <label>Enter your First Name</label>
             <input type="text" name="fname" id="fname">

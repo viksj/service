@@ -7,6 +7,7 @@ use App\Models\Vendors;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
 class VendorController extends Controller
@@ -49,8 +50,8 @@ class VendorController extends Controller
         $vendor->lname = $data['lname'];
         $vendor->email = $data['email'];
         $vendor->mobile = $data['mobile'];
-        $vendor->password = $data['password'];
-        $vendor->status = 0;
+        $vendor->password = Hash::make($data['password']);
+        $vendor->status = $data['status'];;
         $vendor->save();
         return Redirect::back()->with('successmessage', 'Data is save');
     }
@@ -62,19 +63,21 @@ class VendorController extends Controller
     public function login(Request $request){
         if($request->isMethod('post')){
             $data = $request->all();
-            echo "<pre>";
-            print_r ($data);die;
-            if(Auth::guard('admins')->attempt(['email'=>$data['email'],'password'=>$data['password'],'status'=>'1'])){
-                return redirect('admin/dashboard');
+            if(Auth::guard('vendors')->attempt(['email'=>$data['email'], 'password'=>$data['password'], 'status'=>'1'])){
+                return redirect('vendor/dashboard');
             }else{
                 return redirect()->back()->with('error_message','username and password not correct');
             }
         }
-        return view('admin.adminlogin');
+        return view('vendors.innerpage.login');
     }
     public function logout()
     {
-        Auth::guard('admins')->logout();
-        return redirect('admin/login')->with('success_message','logout successfully');
+        Auth::guard('vendors')->logout();
+        return redirect('vendor/login')->with('success_message','logout successfully');
+    }
+
+    public function dashboard(){
+        return view('vendors.innerpage.vendordashboard');
     }
 }

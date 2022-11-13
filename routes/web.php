@@ -35,14 +35,15 @@ Route::prefix('/admin')->namespace('Admincontroller')->group(function(){
     });
 });
 
-Route::prefix('/vendor')->namespace('App\Http\Controllers\Front')->group(function(){
+Route::prefix('/vendor')->namespace('VendorController')->group(function(){
     //vendor Login/Register
-    Route::get('signup',[VendorController::class,'Signup']);
-    Route::post('register',[VendorController::class,'Register']);
-    Route::get('login',[VendorController::class,'loginpage']);
-    Route::post('login',[VendorController::class,'login']);
-    // Route::group(['middleware'=>['vendors']],function(){
+    Route::get('signup', [VendorController::class, 'Signup']);
+    Route::post('register', [VendorController::class, 'Register']);
+    Route::get('login', [VendorController::class, 'loginpage']);
+    // Route::get('dashboard', [VendorController::class, 'dashboard']);
+    Route::group(['middleware'=>['vendors']],function(){
         //Admin Dashboard Route
-    //     Route::get('dashboard',[AdminController::class,'dashboard']);
-    // });
+        Route::get('dashboard', [VendorController::class, 'dashboard']);
+        Route::post('login', [VendorController::class, 'login']);
+    });
 });

@@ -7,7 +7,7 @@
     <title>Seller Login</title>
 </head>
 <body>
-    <form action="" method="post">
+    <form action="{{ url('/vendor/login') }}" method="post">
         @csrf
         <input type="text" name="email" id="vendor_email" placeholder="Enter email" />
         <input type="password" name="password" id="vendor_password" placeholder="password" />
